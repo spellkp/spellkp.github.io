@@ -11,4 +11,11 @@ knitr::opts_chunk$set(echo = TRUE)
 
 #Hobbies
 
-One of the things I enjoy most is contra dancing. 
+ * Contra Dancing
+    + When I first started college I joined the Applachian Heritage Council which introduced me to old-time dancing. Soon           after I   joined the council I began dancing in the Swing Dance Club and the Blues Unified Dance Scene of Boone. I            prefer contra        dancing over any other style of dance and regularly attend dance weekends and monthly contra dances       in areas I am at. To      learn more about my Boone, NC contra dancing scene and to learn about what contra dancing is        visit the [link](http://www.boonecountrydancers.org/).
+ 
+ * Running
+    + My dad first got me into running, since he is also training for the next race. I have always used running as a type of        "self therapy" and stress reliever. I have participated in many 5k's, 10k's, and a half marathon. 
+    
+ * Climbing
+    + Over the summer of 2017 my roommate and I began 
