@@ -1,0 +1,14 @@
+---
+title: "About Me"
+author: "Paige"
+date: "9/7/2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+#Hobbies
+
+One of the things I enjoy most is contra dancing. 
