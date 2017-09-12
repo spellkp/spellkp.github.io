@@ -1,0 +1,20 @@
+---
+title: "Schedule"
+author: "Paige"
+date: "9/12/2017"
+output: html_document
+---
+
+## Sunday
+
+## Monday
+
+## Tuesday
+
+## Wednesday
+
+## Thursday
+
+## Friday
+
+## Saturday

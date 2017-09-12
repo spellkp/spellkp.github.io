@@ -5,6 +5,10 @@ navbar:
   left:
     - text: "Home"
       href: index.html
-    - text: "About Me"
+    - text: "About"
       href: index2.html
+    - text: "Contact"
+      href: index3.html
+    - text: "Schedule"
+      href: index4.html
       

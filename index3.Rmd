@@ -1,0 +1,19 @@
+---
+title: "Contact"
+author: "Paige"
+date: "9/12/2017"
+output: html_document
+---
+
+## Facebook
+
+```{r}
+[link](http://www.boonecountrydancers.org/)
+```
+
+## Instagram
+
+```{r}
+
+```
+
