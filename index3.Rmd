@@ -18,6 +18,6 @@ output: html_document
 ## Email
 
 ```{r}
-
+spellkp@appstate.edu
 ```
 

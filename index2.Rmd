@@ -15,7 +15,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ## Education
 
   * Appalachian State University
-      + I started my undergraduate degree in Mathematics for Life Sciences in the Fall of 2015. I am currently in my third          year at Appalachian and plan to graduate in the Spring of 2019. I will be graduating with a B.S. in Mathematics and          minors in Statistics, Computer Science, and Biology. I currently working on a really interesting research project.           After I graduate from Appalachain State I plan to continue my education and go to graduate school for Data Science. 
+    + I started my undergraduate degree in Mathematics for Life Sciences in the Fall of 2015. I am currently in my third           year at Appalachian and plan to graduate in the Spring of 2019. I will be graduating with a B.S. in Mathematics and          minors in Statistics, Computer Science, and Biology. I currently working on a really interesting research project.           After I graduate from Appalachain State I plan to continue my education and go to graduate school for Data Science. 
 
 #Hobbies
 
