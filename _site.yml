@@ -4,11 +4,11 @@ navbar:
   title: "K. Paige Spell"
   left:
     - text: "Home"
-      href: index.html
+      href: Home.html
     - text: "About"
-      href: index2.html
+      href: About.html
     - text: "Contact"
-      href: index3.html
+      href: Contact.html
     - text: "Projects"
       href: index4.html
       
@@ -20,3 +20,4 @@ navbar:
     html_document:
       theme: simplex
       highlight: espresso
+    css: styles.css

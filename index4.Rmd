@@ -5,3 +5,71 @@ date: "9/12/2017"
 output: html_document
 ---
 
+# Introduction
+
+This is an exploration of bicycle-sharing data in the city of Seattle, WA (USA) from October 2014 - August 2016. I hope to eventually combine this data with other forms of ride-sharing and transportation in the city, but this will be the first step.
+
+Time to get started!
+
+# Loading Necessary Packages
+
+```{r}
+# For data manipulation and tidying
+library(dplyr)
+library(lubridate)
+library(tidyr)
+
+# For mapping
+library(ggmap)
+library(mapproj)
+
+# For data visualizations
+library(ggplot2)
+
+# For modeling and machine learning
+library(caret)
+```
+
+# Importing Data
+
+All of the data can be downloaded from the bicycle-sharing service [“Pronto!"'s website](https://www.prontocycleshare.com/data) or from [Kaggle](https://www.kaggle.com/pronto/cycle-share-dataset). This project contains 3 data sets and I’ll import and inspect each data file independently.
+
+```{r}
+station <- read.csv(file = "2016_station_data.csv", header = TRUE, 
+    stringsAsFactors = FALSE)
+
+trip <- read.csv(file = "2016_trip_data.csv", header = TRUE, 
+    stringsAsFactors = FALSE)
+
+weather <- read.csv(file = "2016_weather_data.csv", header = TRUE, 
+    stringsAsFactors = FALSE)
+```
+
+Ok, let’s take a look at each of these data files.
+
+# Data Structures and Variables
+## Station
+
+```{r echo = FALSE}
+glimpse(station)
+```
+
+## Trip
+```{r echo = FALSE}
+glimpse(trip)
+```
+
+
+## Weather
+
+```{r}
+
+```
+
+
+
+
+
+
+
+

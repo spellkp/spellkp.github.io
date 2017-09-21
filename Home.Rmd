@@ -1,0 +1,18 @@
+---
+title: "Home"
+author: "Paige"
+date: "9/7/2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Hello!
+
+Since you have happened upon my webpage, I assume you are here to learn things about me and see a really cool webiste. So click on..
+
+```{r, echo=FALSE}
+knitr:: include_graphics("./images/download.png")
+```
