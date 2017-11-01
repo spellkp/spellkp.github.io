@@ -9,10 +9,9 @@
 <meta name="generator" content="pandoc" />
 
 
-<meta name="author" content="Paige" />
 
 
-<title>Projects</title>
+<title></title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -206,101 +205,13 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Projects</h1>
-<h4 class="author"><em>Paige</em></h4>
-<h4 class="date"><em>9/12/2017</em></h4>
 
 </div>
 
 
-<div id="introduction" class="section level1">
-<h1>Introduction</h1>
-<p>This is an exploration of bicycle-sharing data in the city of Seattle, WA (USA) from October 2014 - August 2016. I hope to eventually combine this data with other forms of ride-sharing and transportation in the city, but this will be the first step.</p>
-<p>Time to get started!</p>
-</div>
-<div id="loading-necessary-packages" class="section level1">
-<h1>Loading Necessary Packages</h1>
-<pre class="r"><code># For data manipulation and tidying
-library(dplyr)</code></pre>
-<pre><code>## 
-## Attaching package: &#39;dplyr&#39;</code></pre>
-<pre><code>## The following objects are masked from &#39;package:stats&#39;:
-## 
-##     filter, lag</code></pre>
-<pre><code>## The following objects are masked from &#39;package:base&#39;:
-## 
-##     intersect, setdiff, setequal, union</code></pre>
-<pre class="r"><code>library(lubridate)</code></pre>
-<pre><code>## 
-## Attaching package: &#39;lubridate&#39;</code></pre>
-<pre><code>## The following object is masked from &#39;package:base&#39;:
-## 
-##     date</code></pre>
-<pre class="r"><code>library(tidyr)
-
-# For mapping
-library(ggmap)</code></pre>
-<pre><code>## Loading required package: ggplot2</code></pre>
-<pre class="r"><code>library(mapproj)</code></pre>
-<pre><code>## Loading required package: maps</code></pre>
-<pre class="r"><code># For data visualizations
-library(ggplot2)
-
-# For modeling and machine learning
-library(caret)</code></pre>
-<pre><code>## Loading required package: lattice</code></pre>
-</div>
-<div id="importing-data" class="section level1">
-<h1>Importing Data</h1>
-<p>All of the data can be downloaded from the bicycle-sharing service <a href="https://www.prontocycleshare.com/data">“Pronto!”’s website</a> or from <a href="https://www.kaggle.com/pronto/cycle-share-dataset">Kaggle</a>. This project contains 3 data sets and I’ll import and inspect each data file independently.</p>
-<pre class="r"><code>station &lt;- read.csv(file = &quot;2016_station_data.csv&quot;, header = TRUE, 
-    stringsAsFactors = FALSE)
-
-trip &lt;- read.csv(file = &quot;2016_trip_data.csv&quot;, header = TRUE, 
-    stringsAsFactors = FALSE)</code></pre>
-<pre><code>## Warning in scan(file = file, what = what, sep = sep, quote = quote, dec =
-## dec, : EOF within quoted string</code></pre>
-<pre class="r"><code>weather &lt;- read.csv(file = &quot;2016_weather_data.csv&quot;, header = TRUE, 
-    stringsAsFactors = FALSE)</code></pre>
-<p>Ok, let’s take a look at each of these data files.</p>
-</div>
-<div id="data-structures-and-variables" class="section level1">
-<h1>Data Structures and Variables</h1>
-<div id="station" class="section level2">
-<h2>Station</h2>
-<pre><code>## Observations: 58
-## Variables: 9
-## $ station_id        &lt;chr&gt; &quot;BT-01&quot;, &quot;BT-03&quot;, &quot;BT-04&quot;, &quot;BT-05&quot;, &quot;CBD-03&quot;...
-## $ name              &lt;chr&gt; &quot;3rd Ave &amp; Broad St&quot;, &quot;2nd Ave &amp; Vine St&quot;, &quot;...
-## $ lat               &lt;dbl&gt; 47.61842, 47.61583, 47.61609, 47.61311, 47.6...
-## $ long              &lt;dbl&gt; -122.3510, -122.3486, -122.3411, -122.3442, ...
-## $ install_date      &lt;chr&gt; &quot;10/13/2014&quot;, &quot;10/13/2014&quot;, &quot;10/13/2014&quot;, &quot;1...
-## $ install_dockcount &lt;int&gt; 18, 16, 16, 14, 20, 18, 20, 20, 20, 18, 16, ...
-## $ modification_date &lt;chr&gt; &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;11/9/2015&quot;, &quot;&quot;,...
-## $ current_dockcount &lt;int&gt; 18, 16, 16, 14, 20, 18, 20, 18, 20, 18, 0, 1...
-## $ decommission_date &lt;chr&gt; &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;8/9...</code></pre>
-</div>
-<div id="trip" class="section level2">
-<h2>Trip</h2>
-<pre><code>## Observations: 50,793
-## Variables: 12
-## $ trip_id           &lt;int&gt; 431, 432, 433, 434, 435, 436, 437, 438, 439,...
-## $ starttime         &lt;chr&gt; &quot;10/13/2014 10:31&quot;, &quot;10/13/2014 10:32&quot;, &quot;10/...
-## $ stoptime          &lt;chr&gt; &quot;10/13/2014 10:48&quot;, &quot;10/13/2014 10:48&quot;, &quot;10/...
-## $ bikeid            &lt;chr&gt; &quot;SEA00298&quot;, &quot;SEA00195&quot;, &quot;SEA00486&quot;, &quot;SEA0033...
-## $ tripduration      &lt;dbl&gt; 985.935, 926.375, 883.831, 865.937, 923.923,...
-## $ from_station_name &lt;chr&gt; &quot;2nd Ave &amp; Spring St&quot;, &quot;2nd Ave &amp; Spring St&quot;...
-## $ to_station_name   &lt;chr&gt; &quot;Occidental Park / Occidental Ave S &amp; S Wash...
-## $ from_station_id   &lt;chr&gt; &quot;CBD-06&quot;, &quot;CBD-06&quot;, &quot;CBD-06&quot;, &quot;CBD-06&quot;, &quot;CBD...
-## $ to_station_id     &lt;chr&gt; &quot;PS-04&quot;, &quot;PS-04&quot;, &quot;PS-04&quot;, &quot;PS-04&quot;, &quot;PS-04&quot;,...
-## $ usertype          &lt;chr&gt; &quot;Member&quot;, &quot;Member&quot;, &quot;Member&quot;, &quot;Member&quot;, &quot;Mem...
-## $ gender            &lt;chr&gt; &quot;Male&quot;, &quot;Male&quot;, &quot;Female&quot;, &quot;Female&quot;, &quot;Male&quot;, ...
-## $ birthyear         &lt;int&gt; 1960, 1970, 1988, 1977, 1971, 1974, 1978, 19...</code></pre>
-</div>
-<div id="weather" class="section level2">
-<h2>Weather</h2>
-</div>
-</div>
+<ul>
+<li><a href="./Projects/CopyOfDuplication_Project1.html">Proto Bikes</a></li>
+</ul>
 
 
 
