@@ -1,18 +1,18 @@
 name: "Hmmm..."
 output_dir: "."
 navbar:
-  title: "K. Paige Spell"
+  title: "K. PAIGE SPELL"
   left:
-  - text: "Home"
+  - text: "HOME"
     href: Home.html
-  - text: "About Me"
+  - text: "ABOUT ME"
     href: About.html
-  - text: "Contact"
+  - text: "CONTACT ME"
     href: Contact.html
-  - text: "Projects"
+  - text: "PROJECTS"
     href: index4.html
     
 output: 
   html_document: 
     theme: united
-    highlight: default
+    highlight: textmate
