@@ -1,23 +1,17 @@
-name: "my-website"
+name: "Hmmm..."
 output_dir: "."
 navbar:
   title: "K. Paige Spell"
   left:
-    - text: "Home"
-      href: Home.html
-    - text: "About"
-      href: About.html
-    - text: "Contact"
-      href: Contact.html
-    - text: "Projects"
-      href: index4.html
-      
-  right:
-    - icon: fa-github fa-lg
-      href: https://github.com/spellkp/spellkp.github.io/  
-      
-  output:
-    html_document:
-      theme: simplex
-      highlight: espresso
-    css: styles.css
+  - text: "Home"
+    href: Home.html
+  - text: "About Me"
+    href: About.html
+  - text: "Contact"
+    href: Contact.html
+  - text: "Projects"
+    href: index4.html
+    
+output: 
+  html_document: 
+    theme:
