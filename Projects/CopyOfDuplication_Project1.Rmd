@@ -1,19 +1,19 @@
 ---
 title: "Bicycle Sharing in Seattle"
-author: "Bowen Jones and Paige Spell and Andrew Martin-Smith"
+author: "Paige Spell and Andrew Martin-Smith"
 date: '`r format(Sys.time(), "%b %d, %Y")`'
 output: 
   bookdown::html_document2:
     toc: true 
 ---
 
-# **Introduction**
+# Introduction
 
 This is an exploration of bicycle-sharing data in the city of Seattle, WA (USA) from October 2014 - August 2016. I hope to eventually combine this data with other forms of ride-sharing and transportation in the city, but this will be the first step.
 
 Time to get started!
 
-## **Loading Necessary Packages**
+## Loading Necessary Packages
 
 
 ```{r, message=FALSE}
@@ -33,7 +33,7 @@ library(ggplot2)
 library(caret)
 ```
 
-## **Importing Data**
+## Importing Data
 
 All of the data can be downloaded from the bicycle-sharing service [“Pronto!”’s website](https://www.prontocycleshare.com/data) or from [Kaggle](https://www.kaggle.com/pronto/cycle-share-dataset). This project contains 3 data sets and I’ll import and inspect each data file independently.
 
@@ -50,7 +50,7 @@ weather <- read.csv(file = "2016_weather_data.csv", header = TRUE,
 
 Ok, let’s take a look at each of these data files.
 
-### **Data Structures and Variables**
+### Data Structures and Variables
 
 **Station**
 
@@ -120,9 +120,9 @@ This dataset represents quite a bit of weather data in 21 variables.
 * **Precipitation** : The amount of precipitation (measured in inches)
 * **Events** : Weather events that occurred that day (e.g., rain, fog, snow, thunderstorm etc.)
 
-# **Data Visualizations**
+# Data Visualizations
 
-## **Exploring the Stations Dataset**
+## Exploring the Stations Dataset
 
 Since the “Stations” dataset was the first one I imported, let’s start with a little exploration there. First of all, how many unique stations are we dealing with?
 
@@ -156,7 +156,7 @@ ggmap(mymap) + geom_point(aes(x = long, y = lat), data = station_locs,
 
 Great! So the locations are pretty well clustered. I wonder what order they were added in.
 
-### **Station Installation**
+### Station Installation
 
 First, let’s convert those character-string date objects to actual dates using the `lubridate` package.
 
@@ -168,13 +168,13 @@ station$install_date <- mdy(station$install_date)
 # How many times were new stations installed?
 station %>% summarise(n_distinct(install_date))
 ```
+
 ```{r}
 # How many stations were installed on each date?
 station %>% group_by(install_date) %>% summarise(count = n()) %>% 
     arrange(install_date)
 ```
 It looks like the vast majority (86%) of the stations were added on opening day. Let’s see where those original ones were and where the rest were added.
-
 
 
 So they added more stations throughout the district that they serve, instead of adding several new stations to a single neighborhood all at once. Good to know.
@@ -185,8 +185,9 @@ Now, I wonder how many bikes can be parked at each station (as of August 31, 201
 ```{r, echo = FALSE}
 ggplot(data = station, aes(x=current_dockcount))+
   geom_bar(fill = "lavender", color = "purple") + 
-  labs(y = "Frequency", x = "Number of Bikes Per Station") +
-  theme_bw()
+  labs(y = "Frequency", x = "Number of Bikes Per Station", title = "Current Dock Count") + 
+  theme_bw() +
+  theme(plot.title = element_text(hjust = 0.5))
 ```
 
 Well that’s weird, some of the stations have a dock count of 0. I’m assuming they didn’t start that way. Let’s calculate the change in dock count from station installation to August 31, 2016 and plot it on a map.
@@ -211,7 +212,7 @@ ggmap(mymap) +
 
 Wow! Looks like quite a few stations took away bike docks and none gained any. Perhaps those stations weren’t being used very frequently. We’ll have to look at that a bit later.
 
-### **Current Station Size**
+### Current Station Size
 
 I’m going to take one quick look at the current size of each station before moving on to the next dataset. *Note: I did not include any stations that were closed as of August 31, 2016 in this map.*
 
@@ -227,7 +228,7 @@ So it looks like the biggest stations tend to be on the outskirts of the rest. W
 
 Alright, I’m feeling good about exploring this dataset. Time to check out the trip dataset!
 
-## **Exploring the Trips Dataset**
+## Exploring the Trips Dataset
 
 It’s been a while since we’ve looked at the trip dataset, so let’s take another peek at it here.
 ```{r, echo=FALSE}
@@ -265,7 +266,7 @@ trip_2 %>%
 
 Hmm, grouping by day is a little noisy. Perhaps we should try by month?
 
-### **Plotting Trips Per Month (By Season)**
+### Plotting Trips Per Month (By Season)
 
 First, we need to create a “Year-Month” variable
 
@@ -294,7 +295,7 @@ start_date_ym %>%
 
 Well that intuitively makes sense. The number of trips taken per month increases in the spring, reaches a maximum in the summer, declines through the fall, remains fairly stable in the winter and then repeats.
 
-### **Average Trip Duration**
+### Average Trip Duration
 Great! I wonder how the average trip duration fluctuates over this time period.
 
 ```{r}
@@ -314,7 +315,7 @@ There’s surprisingly not a huge range in trip durations here.
 
 The little bit of variation here makes logical sense. Longer trips were being taken in the spring and summer months rather than the fall and winter. It’s also notable that the spring and summer of 2016 may have shown fewer trips than the previous year, show a slight increase in average trip length.
 
-### **Number of Trips by Day of Week**
+### Number of Trips by Day of Week
 I wonder if people are using this service to commute to/from work. Let’s look at the number of trips by day of the week.
 
 First, let’s create a Day of the Week variable.
@@ -325,6 +326,9 @@ trip_2$wd <- wday(trip_2$start_date, label = TRUE)
 
 Now to plot the total number of trips by day of the week.
 
+```{r, echo = FALSE}
+
+```
 
 
 
@@ -335,8 +339,6 @@ Ok, so there are definitely more trips during the week than on the weekends. I w
 ```
 
 So it looks like usage is relatively consistent across seasons, at least as far as the number of trips are concerned.
-
-######################################################################################################################
 
 ### Number of Trips by Time of Day
 

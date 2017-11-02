@@ -1,23 +1,12 @@
 ---
-title: "Contact"
-author: "Paige"
-date: "9/12/2017"
 output: html_document
 ---
 
-## Schedule
 
-
-## Linkedin
-
-```{r}
-
-```
 
 
 ## Email
 
-```{r}
 
-```
+spellkp@appstate.edu
 
