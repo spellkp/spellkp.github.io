@@ -10,6 +10,6 @@ knitr::opts_chunk$set(echo = TRUE)
 
 Since you have happened upon my webpage, I assume you are here to learn things about me and see a really cool webiste. So click on..
 
-```{r, echo=FALSE}
-knitr:: include_graphics("./images/download.png")
+```{r, echo=FALSE, fig.align='center'}
+knitr:: include_graphics("./images/download.png", dpi = 50)
 ```
