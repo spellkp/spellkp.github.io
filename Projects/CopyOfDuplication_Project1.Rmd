@@ -186,7 +186,7 @@ So they added more stations throughout the district that they serve, instead of 
 
 Now, I wonder how many bikes can be parked at each station (as of August 31, 2016)?
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, label = "SUPER", fig.cap="This shows how many bikes can be parked at each station."}
 ggplot(data = station, aes(x=current_dockcount))+
   geom_bar(fill = "lavender", color = "purple") + 
   labs(y = "Frequency", x = "Number of Bikes Per Station", title = "Current Dock Count") + 
@@ -194,7 +194,7 @@ ggplot(data = station, aes(x=current_dockcount))+
   theme(plot.title = element_text(hjust = 0.5))
 ```
 
-Well that’s weird, some of the stations have a dock count of 0. I’m assuming they didn’t start that way. Let’s calculate the change in dock count from station installation to August 31, 2016 and plot it on a map.
+Well that’s weird, some of the stations have a dock count of 0 shown in Figure \@ref(fig:SUPER). I’m assuming they didn’t start that way. Let’s calculate the change in dock count from station installation to August 31, 2016 and plot it on a map.
 
 ```{r}
 dock_change <- station %>% group_by(station_id) %>% select(station_id, 
@@ -353,7 +353,7 @@ trip_seasons <- start_date_ym %>%
                                             ifelse(ym %in% c("2015/3", "2015/4", "2015/5"), "Spring", "Summer"))))
 ```
 
-```{r}
+```{r, label= "FANTASTIC", fig.cap="This shows the consistency across the seasons for the number of trips."}
 trip_seasons %>%
   group_by(wd, Season) %>%
   summarize(N = n()) %>%
@@ -364,7 +364,7 @@ ggplot(aes(wd, N, color = Season, group = Season)) +
   theme_bw() 
 ```
 
-So it looks like usage is relatively consistent across seasons, at least as far as the number of trips are concerned.
+So it looks like usage is relatively consistent across seasons, at least as far as the number of trips are concerned shown in Figure \@ref(fig:FANTASTIC).
 
 ### Number of Trips by Time of Day
 
