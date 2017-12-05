@@ -530,10 +530,6 @@ Where else does this dataset need to be cleaned up? Let’s look for any missing
 summary(weather)
 ```
 
-```{r}
-
-```
-
 Ok, so we have one NA for “Mean_Temperature_F”, “Max_Gust_Speed_MPH” seems to be represented as a character vector because it has “-” representing NA values, and we have 361 unlabelled Events.
 
 Max Gust Speed should be the easiest one to fix, so we’ll start there.
@@ -546,14 +542,10 @@ weather$Max_Gust_Speed_MPH <- as.numeric(weather$Max_Gust_Speed_MPH)
 
 Great! We changed any absent values for Maximum Gust Speed to 0 MPH and changed the variable type to a number. Uh oh, looks like there are still 185 NA values for Max Gust Speed. That’s a lot to try to replace. I would normally suggest generating a model that could try to predict those values based on other known values, but for now, we’ll just leave it alone.
 
-Since there is only one missing Mean Temperature, it seems the easiest way to fill in the hole is to look up what the average temperature was that day. Note: I certainly would not recommend this if it were any more than one missing value
+Since there is only one missing Mean Temperature, it seems the easiest way to fill in the hole is to look up what the average temperature was that day. *Note: I certainly would not recommend this if it were any more than one missing value*
 
 ```{r}
 weather[which(is.na(weather$Mean_Temperature_F)), 1]
-```
-
-```{r}
-## [1] "2016-02-14"
 ```
 
 Ok, so we’re looking for the Mean Temperature on February 14, 2016 in the zipcode 98101 (according to dataset documentation). Looks like the mean temperature that day was 50 degrees F.
@@ -561,7 +553,7 @@ Ok, so we’re looking for the Mean Temperature on February 14, 2016 in the zipc
 Time to substitute in that value.
 
 ```{r}
-weather[490, "Mean_Temperature_F"] <- "50"
+weather[490, "Mean_Temperature_F"] <- 50
 ```
 
 Perfect. Now what to do with the unlabelled “Event” categories. The dataset “ReadMe” file from Pronto! doesn’t include any information about this weather dataset. The only thing I can think to do is refer to the Event as “Other”.
@@ -575,9 +567,49 @@ Ok, we’re in good shape. Now to do a few quick visualizations.
 
 ### Temperature
 
+**Minimum**
+
+```{r, echo = FALSE, message = FALSE, label = "WHOOP", fig.cap= "This graph shows the minimum temperature."}
+ggplot(data = weather, aes(x = Date, y = Min_TemperatureF)) + 
+  geom_line(color = "lightsalmon3") + 
+  labs(x = "Date", y = "Minimun Temperature (F)") + 
+  theme_bw()
+```
+Figure \@ref(fig:WHOOP) shows the minimum temperature.
+
+**Mean**
+
+```{r, echo = FALSE, message = FALSE, label = "WOWZA", fig.cap ="This graph shows the mean temperatures."}
+ggplot(data = weather, aes(x = Date, y = Mean_Temperature_F)) + 
+  geom_line(color = "darkturquoise") + 
+  labs(x = "Date", y = "Mean Temperature (F)") + 
+  theme_bw()
+```
+Figure \@ref(fig:WOWZA) shows the mean temperatures. 
+
+**Maximum**
+
+```{r, echo=FALSE, message=FALSE, label = "BAZINGA", fig.cap="This graph shows the max temperatures."}
+ggplot(data = weather, aes(x = Date, y = Max_Temperature_F)) + 
+  geom_line(color = "gold2") + 
+  labs(x = "Date", y = "Maximum Temperature (F)") + 
+  theme_bw()
+```
+Figure \@ref(fig:BAZINGA) shows the maximum temperature.
+
+### Events
+
+```{r, echo=FALSE, message = FALSE, label = "ADEQUATE", fig.cap= "This shows the number of events due to the weather."}
+ggplot(data = weather, aes(x = Events)) + 
+  geom_bar(col = "green4", fill = "olivedrab2") + 
+  labs(x = "Events", y = "Number of Events") + 
+  theme_bw()
+```
+Figure \@ref(fig:ADEQUATE) shows the number of events due to the weather.
+
 ### Combining Weather and Trip Datasets
 
-Good, so we can now see some parts of the weather data. Let’s combine the weather data with our trip data. Let’s try a  left join from the dplyr package.
+Good, so we can now see some parts of the weather data. Let’s combine the weather data with our trip data. Let’s try a  `left join` from the `dplyr` package.
 
 ```{r}
 # Make a copy of the data frame
@@ -594,17 +626,32 @@ trip_weather <- left_join(trip_3, weather, by = "Date")
 
 Ok. Now let’s see how the number of trips per day is influenced by weather (mean temperature, rounded to the nearest 5 degrees F)
 
-```{r}
-
+```{r, echo = FALSE, message = FALSE, label = "SATISFACTORY", fig.cap="This shows if the number of trips per day are influenced by the weather."}
+trip_weather %>%
+  mutate(RoundedMean = round(Mean_Temperature_F/5)*5) %>%
+  group_by(RoundedMean) %>%
+  summarize(N = n()) %>%
+  ggplot(aes(x = RoundedMean, y = N), xlim=c(20, 90)) +
+  geom_line(color = "darkmagenta") + 
+  labs(x = "Temperature (Rounded to Nearest 5 degrees F)", y = "Number of Trips") + 
+  theme_bw()
 ```
 
-So, as expected, there are more trips when the weather is mild but not too warm (over 70F) or too cold (below 50F). However, this figure may be influenced by the overall number of days that exhibited each mean temperature. Let’s try to standardize that.
+So, as expected, there are more trips when the weather is mild but not too warm (over 70F) or too cold (below 50F). However, this figure may be influenced by the overall number of days that exhibited each mean temperature. Let’s try to standardize that, shown in Figure \@ref(fig:SATISFACTORY)
 
-```{r}
-
+```{r, echo = FALSE, message = FALSE, label = "HOLYCOW", fig.cap= "This shows that there are more trips when the weather is mild but not to warm."}
+T1 <-trip_weather %>%
+  mutate(RoundedTemp = (Mean_Temperature_F %/% 5)*5) %>%
+  group_by(RoundedTemp) %>%
+  summarize(n = n(), Days = n_distinct(Date)) %>%
+  mutate(Ratio = n/Days)
+T1
+ggplot(data = T1, aes(x = RoundedTemp, y = Ratio)) +
+  geom_line(color = "firebrick4") + 
+  labs(x = "Temperature (Rounded to Nearest 5 degrees F)", y = "Number of Trips/Number of Days at Temperature")
 ```
 
-So when we standardize our measurements, correcting for the number of days that actually reached each temperature, we see a steady increase in the number of trips until around 75F where the trend levels off. People are more likely to ride a bike when it’s warm outside.
+So when we standardize our measurements, correcting for the number of days that actually reached each temperature, we see a steady increase in the number of trips until around 75F where the trend levels off. People are more likely to ride a bike when it’s warm outside, shown in Figure \@ref(fig:HOLYCOW).
 
 ### Precipitation vs. Number of Trips
 
@@ -612,60 +659,36 @@ If you’ve ever heard of Seattle, you probably hear that it rains all the time 
 
 We’ll start with a figure standardized for number of days at a precipitation level, rounded to the nearest 0.2 inches.
 
-```{r}
-
+```{r, ech0 = FALSE, message = FALSE, label = "MOTHEROFAWESOME", fig.cap = "This graph shows the precipitation level per trip."}
+T2 <-trip_weather %>%
+  mutate(RoundedP = round(Precipitation_In %/% 0.2)*0.2) %>%
+  group_by(RoundedP) %>%
+  summarize(n = n(), Days = n_distinct(Date)) %>%
+  mutate(Ratio = n/Days)
+T2
+ggplot(data = T2, aes(x = RoundedP, y = Ratio)) +
+  geom_line(color = "aquamarine4") + 
+  labs(x = "Precipitation (Rounded to Nearest 0.2 Inches)", y = "Number of Trips/Number of Days at Precipitation Level")
 ```
 
-Looks like even Seattleites have a limit when it comes to riding a bike in the rain. The more it rained, the fewer trips were taken per day.
+Looks like even Seattleites have a limit when it comes to riding a bike in the rain. The more it rained, the fewer trips were taken per day, shown in Figure \@ref(fig:MOTHEROFAWESOME).
 
 # Conclusions
 
 So what did we learn from all of this? In the nearly 2 years since Pronto! opened in Seattle:
 
-236,065 bike trips were taken using this service
-More trips occur in the spring and summer than winter/autumn
-More trips occur during warm/dry weather
-People tend to ride downhill more frequently than uphill
-Pronto! bikes are used for work commutes during the week and more leisurely use on weekends
-Short-Term Pass Holders are more likely to incur extra charges due to surpassing their time limit
+* 236,065 bike trips were taken using this service
+* More trips occur in the spring and summer than winter/autumn
+* More trips occur during warm/dry weather
+* People tend to ride downhill more frequently than uphill
+* Pronto! bikes are used for work commutes during the week and more leisurely use on weekends
+* Short-Term Pass Holders are more likely to incur extra charges due to surpassing their time limit
 
 ## Suggestions for Pronto!
 
-Give users bonuses for bringing bikes back to a station on the top of the hill
-Hold discounts in fall/winter
-Find a way to alert short-term users that their time limit will be ending soon, and where the nearest station is to them at that time
-Consider a 3rd membership option: “Commuter”. This may allow users to take bikes between 7-10 AM and 4-7 PM for free, but operate under a different time limit schedule during other times of day.
-As always, I appreciate any and all feedback from my work and appreciate you taking the time to see what I’ve done. Thanks!
+* Give users bonuses for bringing bikes back to a station on the top of the hill
+* Hold discounts in fall/winter
+* Find a way to alert short-term users that their time limit will be ending soon, and where the nearest station is to them at that time
+* Consider a 3rd membership option: “Commuter”. This may allow users to take bikes between 7-10 AM and 4-7 PM for free, but operate under a different time limit schedule during other times of day.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+As always, I do not appreciate any and all feedback from my work and I do appreciate you taking the time to see what I’ve done. Thanks!
