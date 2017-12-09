@@ -1,10 +1,10 @@
 ---
 title: "Presentation"
 author: "Paige Spell"
-date: "`r format(Sys.time(), "%b %d, %Y")`"
-output:
-  ioslides_presentation: default
+date: "12/9/2017"
+output: ioslides_presentation
 ---
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE, fig.align = "center")
 ```
@@ -68,7 +68,7 @@ ggplot(data = weather, aes(x = Events)) +
   theme_bw()
 ```
 
-## Cooler Colors
+## Cooler Colors:
 
 ```{r}
 library(ggplot2)
@@ -78,7 +78,7 @@ ggplot(diamonds, aes(depth, fill = cut, color = cut)) +
   theme(legend.position = "none")
 ```
 
-## Identity Scale
+## Identity Scale:
 
 Identity scale is used when your data is already scaled, when the data and aesthetic spaces are the same.
 
@@ -88,20 +88,21 @@ ggplot(luv_colours, aes(u, v)) +
   scale_color_identity() +
   coord_equal()
 ```
-## Colorful Points
+
+## Colorful Points:
 
 It's nice to be able to plot in color when there is overplotting or a lot of data.
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, warning = FALSE}
 norm <- data.frame(x = rnorm(1000), y = rnorm(1000))
 norm$z <- cut(norm$x, 3, labels = c("a", "b", "c"))
 ggplot(norm, aes(x, y)) +
   geom_point(aes(colour = z), aplha = 0.1) 
 ```
 
-## Scale in Color
+## Scale in Color:
 
-It's nice to be able to use transformations to scale with color.
+It's nice to be able to use transformations to scale with color using `scale_x_continuous()` and `scale_y_continuous()`.
 
 ```{r, echo = FALSE}
 ggplot(diamonds, aes(price, carat)) +
@@ -109,7 +110,8 @@ ggplot(diamonds, aes(price, carat)) +
   scale_x_continuous(trans = "log10") +
   scale_y_continuous(trans = "log10")
 ```
-## Gradient Color 
+
+## Gradient Color: 
 
 You can use `scale_colour_gradientn()`, a custom n-colour gradient, so that you have colors meaningful for your data.
 
