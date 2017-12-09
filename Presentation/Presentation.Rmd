@@ -1,38 +1,125 @@
 ---
 title: "Presentation"
-author: "Paige"
-date: "11/28/2017"
+author: "Paige Spell"
+date: "`r format(Sys.time(), "%b %d, %Y")`"
 output:
   ioslides_presentation: default
-  slidy_presentation: default
-  beamer_presentation: default
 ---
-
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(echo = FALSE, fig.align = "center")
 ```
 
-## R Markdown
+## COLORS
 
-This is an R Markdown presentation. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document.
-
-## Slide with Bullets
-
-- Bullet 1
-- Bullet 2
-- Bullet 3
-
-## Slide with R Output
-
-```{r cars, echo = TRUE}
-summary(cars)
+```{r}
+knitr::include_graphics("pics4.png", dpi = 250)
 ```
 
-## Slide with Plot
+## How can you find those colors?
 
-```{r pressure}
-plot(pressure)
+You can either type "Colors in R" into Google or use
+
+http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf.
+
+## Examples:
+
+Here are some graphs I made in the Bike Data Project: 
+
+```{r}
+knitr::include_graphics("pics1.png", dpi = 250)
+```
+
+## Example Code:
+
+```{r, echo = TRUE, eval = FALSE}
+ggplot(data = station, aes(x=current_dockcount))+
+  geom_bar(fill = "lavender", color = "purple") + 
+  labs(y = "Frequency", x = "Number of Bikes Per Station", 
+       title = "Current Dock Count") + 
+  theme_bw() +
+  theme(plot.title = element_text(hjust = 0.5))
+```
+
+## Examples:
+
+```{r}
+knitr::include_graphics("pics2.png", dpi = 250)
+```
+
+## Example Code: 
+
+```{r, echo = TRUE, eval = FALSE}
+hist(trip_age$age, main = "Member Age", xlab = "Number of Riders", 
+    col = "lightsalmon", border = "indianred4", breaks = 25)
+```
+
+## Examples:
+
+```{r}
+knitr::include_graphics("pics3.png", dpi = 250)
+```
+
+## Example Code:
+
+```{r, echo = TRUE, eval = FALSE}
+ggplot(data = weather, aes(x = Events)) + 
+  geom_bar(col = "green4", fill = "olivedrab2") + 
+  labs(x = "Events", y = "Number of Events") + 
+  theme_bw()
+```
+
+## Cooler Colors
+
+```{r}
+library(ggplot2)
+ggplot(diamonds, aes(depth, fill = cut, color = cut)) +
+  geom_density(alpha = 0.2, na.rm = TRUE) +
+  xlim(58, 68) +
+  theme(legend.position = "none")
+```
+
+## Identity Scale
+
+Identity scale is used when your data is already scaled, when the data and aesthetic spaces are the same.
+
+```{r}
+ggplot(luv_colours, aes(u, v)) +
+  geom_point(aes(colour = col), size = 3) +
+  scale_color_identity() +
+  coord_equal()
+```
+## Colorful Points
+
+It's nice to be able to plot in color when there is overplotting or a lot of data.
+
+```{r, echo = FALSE}
+norm <- data.frame(x = rnorm(1000), y = rnorm(1000))
+norm$z <- cut(norm$x, 3, labels = c("a", "b", "c"))
+ggplot(norm, aes(x, y)) +
+  geom_point(aes(colour = z), aplha = 0.1) 
+```
+
+## Scale in Color
+
+It's nice to be able to use transformations to scale with color.
+
+```{r, echo = FALSE}
+ggplot(diamonds, aes(price, carat)) +
+  geom_bin2d() +
+  scale_x_continuous(trans = "log10") +
+  scale_y_continuous(trans = "log10")
+```
+## Gradient Color 
+
+You can use `scale_colour_gradientn()`, a custom n-colour gradient, so that you have colors meaningful for your data.
+
+```{r, echo = FALSE}
+erupt <- ggplot(faithfuld, aes(waiting, eruptions, fill = density)) +
+  geom_raster() +
+  scale_x_continuous(NULL, expand = c(0,0)) +
+  scale_y_continuous(NULL, expand = c(0,0)) +
+  theme(legend.position = "none")
+
+erupt + scale_fill_gradientn(colours = terrain.colors(7))
 ```
 
