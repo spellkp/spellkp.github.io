@@ -1,24 +1,25 @@
 name: "Hmmm..."
 output_dir: "."
 navbar:
-  title: "K. PAIGE SPELL"
+  title: "PAIGE SPELL"
   left:
   - text: "HOME"
     href: Home.html
   - text: "ABOUT ME"
     href: About.html
-  - text: "CONTACT ME"
-    href: Contact.html
   - text: "PROJECTS"
     href: index4.html
-    
+  - text: "CONTACT ME"
+    href: Contact.html
        
   right:
   - text: ""
     icon: glyphicon-info-sign
     href: About.html
+  - icon: linkedin 
+    href: https://www.linkedin.com/in/spellkp/
   - icon: fa-github fa-lg
-    href: https://github.com/spellkp/spellkp.github.io/  
+    href: https://github.com/spellkp
     
 output: 
   html_document: 
